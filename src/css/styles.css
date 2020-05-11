@@ -1,0 +1,61 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  color: #000000;
+}
+
+.wrapper{
+  margin: 50px;
+}
+
+
+input{
+  border: 2px solid #000000;
+  border-radius: 3px;
+  color: #000000;
+  height: 60px; 
+  padding: 20px;
+  width: 500px;
+  outline: none;
+  font-size: 24px;
+}
+
+
+
+.wrapListCountry {
+  font-size: 18px;
+  max-width: 500px;
+  padding-top: 20px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.countryName {
+  text-align: center;
+  font-size: 34px;
+}
+
+.text {
+  font-weight: bold;
+}
+
+.textContent {
+  line-height: 1.5;
+}
+
+.listCountry {
+
+  list-style: disc;
+  
+}
