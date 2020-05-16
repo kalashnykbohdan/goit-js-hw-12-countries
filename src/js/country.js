@@ -1,31 +1,32 @@
 'use strict';
 
-import './services/fetchCountries.js';
-
 import serviceFetchCountries from './services/fetchCountries.js'
 import oneCountryInfo from '../templates/countryInfo.hbs'
 import ListCountryName from '../templates/listCountryInfo.hbs'
+import '@pnotify/core/dist/BrightTheme.css';
 
-import '../../node_modules/lodash'  
+import {debounce} from '../../node_modules/lodash'  
 
+const { error } = require('@pnotify/core');
 const refs = {
     jsInput: document.querySelector('#js-input'),
     jsListCountry: document.querySelector('#js-list'),
 };
 
 
-refs.jsInput.addEventListener('input', _.debounce(createJsListCountry, 500));
+refs.jsInput.addEventListener('input', debounce(createJsListCountry, 500));
 
 function createJsListCountry(e){
 
     clearListItems()
-    // console.log(event.currentTarget.value)
+
     serviceFetchCountries.fetchCountries(e.target.value).then(data => {
         
 
         if(data.length > 10){
-            alert("Too many matches found. Please enter a more specific query!"
-            );
+            error({
+                text: "Too many matches found. Please enter a more specific query!"
+                });
         }
         else if(data.length === 1){
             console.log(data);
@@ -36,7 +37,21 @@ function createJsListCountry(e){
             buildList(data, ListCountryName);
         }
     })
-    .catch(error => {console.log(error)})
+    .catch(error => {
+        if(data.status === 500){
+            error({
+                text: "Server is temporarily unavailable!"
+                });
+        }
+        else if(data.status === 404){
+            error({
+                text: "Server not found"
+                });
+        }
+        error({
+            text: "unidentified error"
+            });
+    })
     
     
 }//----------------------------------------------------------------
